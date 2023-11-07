@@ -23,7 +23,7 @@ export class CreateAdminDto {
     @ApiProperty({example: "1", description: "Admin's Role or status"})
     @IsNotEmpty()
     @IsString()
-    roleId: string;
+    role: string;
 
     @ApiProperty({example: "asdfjiogj7845",  description: "Admin's photo"})
     @IsNotEmpty()

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { InjectModel } from '@nestjs/sequelize';
-import { Book } from './models/book.entity';
+import { Book } from './models/book.model';
 
 @Injectable()
 export class BookService {

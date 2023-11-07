@@ -26,7 +26,7 @@ export class UpdateClientDto extends PartialType(CreateClientDto) {
     @ApiProperty({example: "3", description: "Id of Client type"})
     @IsOptional()
     @IsString()
-    client_type_id: string;
+    client_type_id: number;
 
     @ApiProperty({example: ";laiwifhjvn", description: "location of the company"})
     @IsOptional()

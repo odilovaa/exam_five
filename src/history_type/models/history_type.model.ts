@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Column, DataType, HasMany, Model } from "sequelize-typescript";
+import { Column, DataType, HasMany, Model, Table } from "sequelize-typescript";
 import { History } from "../../history/models/history.model";
 
 interface HistoryTypeAttr{
@@ -7,7 +7,7 @@ interface HistoryTypeAttr{
     description: string;
 }
 
-
+@Table({tableName: "historytypes"})
 export class HistoryType extends Model<HistoryType, HistoryTypeAttr>{
     @ApiProperty({example: '1', description: "Role's id"})
     @Column({

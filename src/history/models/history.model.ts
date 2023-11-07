@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { BelongsTo, Column, DataType, Model, Table } from "sequelize-typescript";
+import { BelongsTo, Column, DataType, ForeignKey, Model, Table } from "sequelize-typescript";
 import { HistoryType } from "../../history_type/models/history_type.model";
 import { BoughtProduct } from "../../bought_product/models/bought_product.model";
 import { Order } from "../../order/models/order.model";
@@ -12,7 +12,7 @@ interface HistoryAttr{
     additional_info: string;
 }
 
-Table({tableName: "histoies"})
+@Table({tableName: "histoies"})
 export class History extends Model<History, HistoryAttr>{
     @ApiProperty({example: 1, description: "Unique ID"})
     @Column({
@@ -29,16 +29,40 @@ export class History extends Model<History, HistoryAttr>{
     name: string;
 
     @ApiProperty({example: "2", description: "Id of the type of the history"})
+    @ForeignKey(() => HistoryType)
+    @Column({
+        type: DataType.INTEGER,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    })
+    history_type_id: number;
+
     @BelongsTo(() => HistoryType)
-    history_type_id: HistoryType;
+    history_type: HistoryType;
 
     @ApiProperty({example: "3", description: "Id of the action"})
+    @ForeignKey(() => BoughtProduct)
+    @Column({
+        type: DataType.INTEGER,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    })
+    action_bought_id: number;
+
     @BelongsTo(() => BoughtProduct)
-    action_bought_id: BoughtProduct;
+    action_bought: BoughtProduct;
 
     @ApiProperty({example: "2", description: "Id of the action"})
+    @ForeignKey(() => Order)
+    @Column({
+        type: DataType.INTEGER,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    })
+    action_order_id: number;
+
     @BelongsTo(() => Order)
-    action_order_id: Order;
+    action_order: Order;
 
     @ApiProperty({example: "ti is additional info", description: "Info about history"})
     @Column({

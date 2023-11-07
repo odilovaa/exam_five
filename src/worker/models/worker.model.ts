@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Column, DataType, Model, Table } from "sequelize-typescript";
+import { BelongsTo, Column, DataType, ForeignKey, Model, Table } from "sequelize-typescript";
+import { WorkerType } from "../../worker_type/models/worker_type.model";
 
 interface WorkerAttr{
     full_name: string;
@@ -18,13 +19,13 @@ interface WorkerAttr{
     responsbility: string;
 }
 
-Table({tableName: "workers"})
+@Table({tableName: "workers"})
 export class Worker extends Model<Worker, WorkerAttr> {
     @ApiProperty({example: 1, description: "Unique ID"})
     @Column({
         type: DataType.INTEGER,
         autoIncrement: true,
-        unique: true
+        primaryKey: true
     })
     id: number
 
@@ -35,10 +36,16 @@ export class Worker extends Model<Worker, WorkerAttr> {
     full_name: string;
 
     @ApiProperty({example: "1", description: "Id of the typr of the worker"})
+    @ForeignKey(() => WorkerType)
     @Column({
-        type: DataType.NUMBER,
+        type: DataType.INTEGER,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
     })
     worker_type_id: number;
+
+    @BelongsTo(() => WorkerType)
+    worker_type: WorkerType;
 
     @ApiProperty({example: "worker@gmail.com", description: "Email address of the worker"})
     @Column({

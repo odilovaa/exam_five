@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { BelongsTo, Column, DataType, HasMany, Model, Table } from "sequelize-typescript";
-import { Book } from "../../book/models/book.entity";
+import { BelongsTo, Column, DataType, ForeignKey, HasMany, Model, Table } from "sequelize-typescript";
+import { Book } from "../../book/models/book.model";
 import { Client } from "../../client/models/client.model";
 import { Language } from "../../language/models/language.model";
 import { History } from "../../history/models/history.model";
@@ -19,7 +19,7 @@ interface OrderAttr {
     total_price: number;
 }
 
-Table({tableName: "orders"})
+@Table({tableName: "orders"})
 export class Order extends Model<Order, OrderAttr>{
     @ApiProperty({example: '1', description: "Unique id"})
     @Column({
@@ -36,16 +36,40 @@ export class Order extends Model<Order, OrderAttr>{
     title: string;
 
     @ApiProperty({example: 2, description: "Id of the book which client ordred"})
+    @ForeignKey(() => Book)
+    @Column({
+        type: DataType.INTEGER,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    })
+    category_id: number;
+
     @BelongsTo(() => Book)
-    book_id: Book;
+    book: Book;
 
     @ApiProperty({example: 2, description: "Id of the client who ordred this"})
+    @ForeignKey(() => Client)
+    @Column({
+        type: DataType.INTEGER,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    })
+    client_id: number;
+
     @BelongsTo(() => Client)
-    client_id: Client;
+    client: Client;
 
     @ApiProperty({example: 5, description: "Id of the worker who responsble for this order"})
+    @ForeignKey(() => Worker)
+    @Column({
+        type: DataType.INTEGER,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    })
+    worker_id: number;
+
     @BelongsTo(() => Worker)
-    worker_id: Worker;
+    worker: Worker;
 
     @ApiProperty({example: "2345-12-23", description: "In this date order will ready"})
     @Column({
@@ -54,8 +78,16 @@ export class Order extends Model<Order, OrderAttr>{
     deadline_date: Date;
 
     @ApiProperty({example: "English", description: "Id of the language in which book will published"})
+    @ForeignKey(() => Language)
+    @Column({
+        type: DataType.INTEGER,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    })
+    publishing_language_id: number;
+
     @BelongsTo(() => Language)
-    publishing_language_id: Language;
+    publishing_language: Language;
 
     @ApiProperty({example: "5000", description: "the quantity of the product"})
     @Column({
@@ -65,13 +97,13 @@ export class Order extends Model<Order, OrderAttr>{
 
     @ApiProperty({example: 20000, description: "the price for one book"})
     @Column({
-        type: DataType.NUMBER
+        type: DataType.INTEGER
     })
     price_for_one: number;
 
     @ApiProperty({example: 20000000, description: "the price for the order"})
     @Column({
-        type: DataType.NUMBER
+        type: DataType.INTEGER
     })
     total_price: number;
 

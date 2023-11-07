@@ -1,12 +1,13 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Column, DataType, Model, Table } from "sequelize-typescript";
+import { Column, DataType, HasMany, Model, Table } from "sequelize-typescript";
+import { Worker } from "../../worker/models/worker.model";
 
 
 interface WorkerTypeAttr{
     title: string;
 }
 
-Table({tableName: "Worker_typies"})
+@Table({tableName: "Worker_typies"})
 export class WorkerType extends Model<WorkerType, WorkerTypeAttr>{
     @ApiProperty({example: '1', description: "Role's id"})
     @Column({
@@ -22,4 +23,7 @@ export class WorkerType extends Model<WorkerType, WorkerTypeAttr>{
         unique: true,
     })
     title: string;
+
+    @HasMany(() => Worker)
+    workers: Worker[]
 }

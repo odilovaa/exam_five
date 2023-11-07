@@ -8,6 +8,7 @@ import * as bcrypt from 'bcrypt';
 import { Response } from 'express';
 import { LoginAdmindto } from './dto/loginAdmin.dto';
 import { v4 } from 'uuid';
+import { MailService } from '../mail/mail.service';
 
 
 @Injectable()
@@ -15,6 +16,7 @@ export class AdminService {
   constructor(
     @InjectModel(Admin) private readonly adminRepo: typeof Admin,
     private readonly jwtService: JwtService,
+    private readonly mailService: MailService,
 
   ){}
 
@@ -22,7 +24,7 @@ export class AdminService {
     const jwtPayload = {
       id: admin.id,
       password: admin.hashed_password,
-      role: admin.roleId,
+      role: admin.role,
       is_active: admin.is_active
     };
 
@@ -74,9 +76,16 @@ export class AdminService {
       httpOnly: true,
     });
 
+    try {
+      await this.mailService.sendAdminConfirm(updateAdmin[1][0])
+    } catch (error) 
+    {
+      console.log(error);
+    }
+
     const response = {
-      message: 'Admin registred',
-      admin: updateAdmin[1][0],
+      message: 'Customer registred',
+      customer: updateAdmin[1][0],
       tokens,
     };
     return response;
@@ -212,7 +221,7 @@ export class AdminService {
 
   async update(id: number, updateAdminDto: UpdateAdminDto) {
     const updateAdmin = await this.adminRepo.update(updateAdminDto, {where: {id}, returning: true});
-    return updateAdmin[1][0];
+    return updateAdmin[1][0]; 
   }
 
   async remove(id: number) {

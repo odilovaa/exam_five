@@ -1,6 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { BelongsTo, Column, DataType, Model, Table } from "sequelize-typescript";
-import { Role } from "../../role/models/role.entity";
+import { BelongsTo, Column, DataType, ForeignKey, Model, Table } from "sequelize-typescript";
 
 interface AdminAttr{
     full_name: string;
@@ -11,7 +10,7 @@ interface AdminAttr{
     birth_date: Date;
     hashed_refreshToken: string;
     is_active: boolean;
-    roleId: string;
+    roleId: number;
     photo: string;
     activation_link: string;
 }
@@ -80,8 +79,10 @@ export class Admin extends Model<Admin, AdminAttr>{
     is_active: Boolean;
 
     @ApiProperty({example: "SUPERADMIN", description: "Role or status of admin"})
-    @BelongsTo(() => Role)
-    roleId: Role;
+    @Column({
+        type: DataType.STRING,
+    })
+    role: string;
 
     @ApiProperty({example: "adai90jewofmc", description: "Photo of admin"})
     @Column({

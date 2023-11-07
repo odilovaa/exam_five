@@ -1,13 +1,13 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Column, DataType, HasMany, Model, Table } from "sequelize-typescript";
-import { Book } from "../../book/models/book.entity";
+import { Book } from "../../book/models/book.model";
 
 interface BookPrintAttr{
-    title: symbol;
+    title: string;
     description: string;
 }
 
-Table({tableName: "book_prints"})
+@Table({tableName: "book_prints"})
 export class BookPrint extends Model<BookPrint, BookPrintAttr>{
     @ApiProperty({example: '1', description: "Role's id"})
     @Column({

@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Column, DataType, HasMany, Model } from "sequelize-typescript";
+import { Column, DataType, HasMany, Model, Table } from "sequelize-typescript";
 import { Client } from "../../client/models/client.model";
 
 interface ClientTypeAttr{
@@ -7,6 +7,7 @@ interface ClientTypeAttr{
     description: string;
 }
 
+@Table({tableName: "clientTypes"})
 export class ClientType extends Model<ClientType, ClientTypeAttr>{
     @ApiProperty({example: '1', description: "Role's id"})
     @Column({

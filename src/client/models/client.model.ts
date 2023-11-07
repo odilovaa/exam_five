@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { BelongsTo, Column, DataType, HasMany, Model } from "sequelize-typescript";
+import { BelongsTo, Column, DataType, ForeignKey, HasMany, Model, Table } from "sequelize-typescript";
 import { Order } from "../../order/models/order.model";
 import { ClientType } from "../../client_type/models/client_type.model";
 
@@ -10,9 +10,10 @@ interface ClientAttr {
     email: string;
     phone_number: string;
     location: string;
-    client_type_id: string;
+    client_type_id: number;
 }
 
+@Table({tableName: "clients"})
 export class Client extends Model<Client, ClientAttr>{
     @ApiProperty({example: 1, description: "Unique ID"})
     @Column({
@@ -54,8 +55,16 @@ export class Client extends Model<Client, ClientAttr>{
     location: string;
 
     @ApiProperty({example: "3", description: "Id of Client type"})
+    @ForeignKey(() => ClientType)
+    @Column({
+        type: DataType.INTEGER,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    })
+    client_type_id: number;
+
     @BelongsTo(() => ClientType)
-    client_type_id: ClientType;
+    client_type: ClientType;
     
     @HasMany(() => Order)
     orders: Order[]

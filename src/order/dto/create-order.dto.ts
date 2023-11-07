@@ -25,7 +25,7 @@ export class CreateOrderDto {
     @ApiProperty({example: 2, description: "Id of the client who ordred this"})
     @IsNotEmpty()
     @IsDate()
-    client_id: string;
+    client_id: number;
 
     @ApiProperty({example: "5000", description: "the quantity of the product"})
     @IsNotEmpty()

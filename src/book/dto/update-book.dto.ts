@@ -11,27 +11,27 @@ export class UpdateBookDto extends PartialType(CreateBookDto) {
     @ApiProperty({example: 1, description: "Id of the author of book"})
     @IsOptional()
     @IsNumber()
-    author_id: string;
+    author_id: number;
 
     @ApiProperty({example: 1, description: "Id of the book print of book"})
     @IsOptional()
     @IsNumber()
-    book_print_id: string;
+    book_print_id: number;
 
     @ApiProperty({example: 1, description: "Id of the category of the book"})
     @IsOptional()
     @IsNumber()
-    category_id: string;
+    category_id: number;
 
     @ApiProperty({example: 1, description: "Id of the original language of the book"})
     @IsOptional()
     @IsNumber()
-    original_language_id: string;
+    original_language_id: number;
 
     @ApiProperty({example: "234", description: "pages number of the book"})
     @IsOptional()
     @IsNumber()
-    pages: string;
+    pages: number;
 
     @ApiProperty({example: "1111-22-33", description: "Date published of the book"})
     @IsOptional()

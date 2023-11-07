@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Column, DataType, HasMany, Model } from "sequelize-typescript";
+import { Column, DataType, HasMany, Model, Table } from "sequelize-typescript";
 import { History } from "../../history/models/history.model";
 
 
@@ -12,6 +12,7 @@ interface BoughtProductAttr {
 }
 
 
+@Table({tableName: "boughtProducts"})
 export class BoughtProduct extends Model<BoughtProduct, BoughtProductAttr>{
     @ApiProperty({example: 1, description: "Unique ID"})
     @Column({
@@ -19,7 +20,7 @@ export class BoughtProduct extends Model<BoughtProduct, BoughtProductAttr>{
         autoIncrement: true,
         primaryKey: true
     })
-    id: string;
+    id: number;
 
     @ApiProperty({example: "Blue ink", description: "Name of the product"})
     @Column({

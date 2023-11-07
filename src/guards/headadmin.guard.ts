@@ -2,13 +2,10 @@ import { BadRequestException, CanActivate, ExecutionContext, ForbiddenException,
 import { JwtService } from "@nestjs/jwt";
 import { Admin } from "../admin/models/admin.model";
 import { InjectModel } from "@nestjs/sequelize";
-import { Role } from "../role/models/role.entity";
-
 
 @Injectable()
 export class HeadAdminGuard implements CanActivate{
-    constructor(private readonly jwtService: JwtService,
-        @InjectModel(Role) private RoleRepo: typeof Role){}
+    constructor(private readonly jwtService: JwtService){}
 
     canActivate(context: ExecutionContext) {
         const req = context.switchToHttp().getRequest();
@@ -32,8 +29,7 @@ export class HeadAdminGuard implements CanActivate{
             if(!admin.is_active) {
                 throw new BadRequestException('user is not active');
             }
-            const role = await this.RoleRepo.findOne({where: {id: admin.roleId}})
-            if(role != 'HEADADMIN' || 'SUPERADMIN')
+            if(admin.role != 'HEADADMIN' || 'SUPERADMIN')
             {
                 throw new ForbiddenException({
                     message: 'You are not allowed'

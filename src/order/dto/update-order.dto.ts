@@ -26,7 +26,7 @@ export class UpdateOrderDto extends PartialType(CreateOrderDto) {
     @ApiProperty({example: 2, description: "Id of the client who ordred this"})
     @IsOptional()
     @IsDate()
-    client_id: string;
+    client_id: number;
 
     @ApiProperty({example: "5000", description: "the quantity of the product"})
     @IsOptional()
