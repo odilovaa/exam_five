@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateAdminDto } from './create-admin.dto';
-import { IsDate, IsEmail, IsNumber, IsOptional, IsPhoneNumber, IsString, IsStrongPassword, IsUppercase, MinLength } from 'class-validator';
+import { IsDate, IsDateString, IsEmail, IsNumber, IsOptional, IsPhoneNumber, IsString, IsStrongPassword, IsUppercase, MinLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class UpdateAdminDto extends PartialType(CreateAdminDto) {
@@ -27,6 +27,7 @@ export class UpdateAdminDto extends PartialType(CreateAdminDto) {
     @ApiProperty({example: "1", description: "Admin's Role or status"})
     @IsString()
     @IsOptional()
+    @IsUppercase()
     role?: string;
 
     @ApiProperty({example: "asdfjiogj7845",  description: "Admin's photo"})
@@ -35,7 +36,7 @@ export class UpdateAdminDto extends PartialType(CreateAdminDto) {
     photo?: string;
 
     @ApiProperty({example: "2222-22-22", description: "Admin's birth date"})
-    @IsDate()
+    @IsDateString()
     @IsOptional()
     birth_date?: Date;
 

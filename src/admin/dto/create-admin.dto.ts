@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsDate, IsEmail, IsNotEmpty, IsOptional, IsPhoneNumber, IsString, IsStrongPassword, IsUppercase, MinLength } from "class-validator";
+import { IsDate, IsDateString, IsEmail, IsNotEmpty, IsOptional, IsPhoneNumber, IsString, IsStrongPassword, IsUppercase, MinLength } from "class-validator";
 
 export class CreateAdminDto {
     @ApiProperty({example: "John Doe",  description: "Admin's full name"})
@@ -23,6 +23,7 @@ export class CreateAdminDto {
     @ApiProperty({example: "1", description: "Admin's Role or status"})
     @IsNotEmpty()
     @IsString()
+    @IsUppercase()
     role: string;
 
     @ApiProperty({example: "asdfjiogj7845",  description: "Admin's photo"})
@@ -32,7 +33,7 @@ export class CreateAdminDto {
 
     @ApiProperty({example: "2222-22-22", description: "Admin's birth date"})
     @IsNotEmpty()
-    @IsDate()
+    @IsDateString()
     birth_date: Date;
 
     @ApiProperty({example: "Pas$wor7",  description: "Admin's Strong password"})

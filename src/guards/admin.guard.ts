@@ -30,13 +30,15 @@ export class AdminGuard implements CanActivate{
             if(!admin.is_active) {
                 throw new BadRequestException('user is not active');
             }
-            if(admin.role != 'ADMIN' || 'SUPERADMIN')
+            if(admin.role == 'ADMIN' || admin.role == 'SUPERADMIN')
             {
-                throw new ForbiddenException({
-                    message: 'You are not allowed'
-                });
+                return true
             }
-            return true
+            
+            throw new ForbiddenException({
+                message: 'You are not allowed'
+            });
+            
         }
         return verify(token, this.jwtService)
     }

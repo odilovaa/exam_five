@@ -10,7 +10,7 @@ interface AdminAttr{
     birth_date: Date;
     hashed_refreshToken: string;
     is_active: boolean;
-    roleId: number;
+    role: string;
     photo: string;
     activation_link: string;
 }

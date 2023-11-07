@@ -1,6 +1,5 @@
 import { MailerService } from "@nestjs-modules/mailer";
 import { Injectable } from "@nestjs/common";
-import { Worker } from "../worker/models/worker.model";
 import { Admin } from "../admin/models/admin.model";
 
 
@@ -11,6 +10,8 @@ export class MailService {
     async sendAdminConfirm(admin: Admin) :Promise<void>{
         const url = `${process.env.API_HOST}/api/admin/activate/${admin.activation_link}`;
         console.log(url);
+        
+        console.log();
         
         await this.mailerService.sendMail({
             to: admin.email,

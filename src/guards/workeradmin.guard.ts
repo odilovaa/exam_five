@@ -30,13 +30,14 @@ export class WorkerAdminGuard implements CanActivate{
             if(!admin.is_active) {
                 throw new BadRequestException('user is not active');
             }
-            if(admin.role != 'WORKERADMIN' || 'SUPERADMIN')
+            if(admin.role == 'WORKERADMIN' || 'SUPERADMIN')
             {
-                throw new ForbiddenException({
-                    message: 'You are not allowed'
-                });
+                return true
             }
-            return true
+            
+            throw new ForbiddenException({
+                message: 'You are not allowed'
+            });
         }
         return verify(token, this.jwtService)
     }

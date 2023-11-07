@@ -21,21 +21,25 @@ export class HeadAdminGuard implements CanActivate{
         }
         async function verify(token: string, jwtService: JwtService) {
             const admin: Partial<Admin> = await jwtService.verify(token, {
-                secret: process.env.ACCESS_TOKEN_KEY_FA,
+                secret: process.env.ACCESS_TOKEN_KEY,
             });
             if(!admin) {
                 throw new UnauthorizedException('Invalid token provided');
             }
-            if(!admin.is_active) {
-                throw new BadRequestException('user is not active');
-            }
-            if(admin.role != 'HEADADMIN' || 'SUPERADMIN')
+            
+            // if(!admin.is_active) {
+            //     throw new BadRequestException('user is not active');
+            // }
+            console.log(admin);
+            
+            if(admin.role == 'HEADADMIN' || admin.role == 'SUPERADMIN')
             {
-                throw new ForbiddenException({
-                    message: 'You are not allowed'
-                });
+                return true
             }
-            return true
+
+            throw new ForbiddenException({
+                message: 'You are not allowed'
+            });
         }
         return verify(token, this.jwtService)
     }
